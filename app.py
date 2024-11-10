@@ -34,9 +34,9 @@ def create_player():
         conn = connect()
         cur = conn.cursor()
         data = request.get_json()
-        name = data.get('name')
-        age = data.get('age')
-        gender = data.get('gender')
+        name = data.get('Name')
+        age = data.get('Age')
+        gender = data.get('Gender')
         total_pizza = 0
         logged_pizza = 0
         coins = 500
