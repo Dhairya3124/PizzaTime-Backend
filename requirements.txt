@@ -1,0 +1,6 @@
+flask_cors
+os
+flask
+dotenv
+psycopg2
+json
