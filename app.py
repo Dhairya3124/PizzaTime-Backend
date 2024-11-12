@@ -34,9 +34,9 @@ def create_player():
         conn = connect()
         cur = conn.cursor()
         data = request.get_json()
-        name = data.get('Name')
-        age = data.get('Age')
-        gender = data.get('Gender')
+        name = data.get('name')
+        age = data.get('age')
+        gender = data.get('gender')
         total_pizza = 0
         logged_pizza = 0
         coins = 500
@@ -59,9 +59,9 @@ def player(id):
         return jsonify(player[0])
     elif request.method == 'PUT':
         data = request.get_json()
-        name = data.get('Name')
-        age = data.get('Age')
-        gender = data.get('Gender')
+        name = data.get('name')
+        age = data.get('age')
+        gender = data.get('gender')
         cur.execute('UPDATE player SET name = %s, age = %s, gender = %s WHERE id = %s', (name, age,gender, id))
         conn.commit()
         cur.close()
@@ -78,9 +78,11 @@ def pizza(id):
     conn = connect()
     cur = conn.cursor()
     data = request.get_json()
-    total_pizza = data.get('total_pizza')
+    print(data)
+    total_pizza = data.get('logged_pizza')
+    
     coins = data.get('coins')
-    cur.execute('UPDATE player SET total_pizza = %s, coins = %s WHERE id = %s', (total_pizza, coins, id))
+    cur.execute('UPDATE player SET total_pizza = total_pizza + %s, coins = %s WHERE id = %s', (total_pizza , coins, id))
     conn.commit()
     cur.close()
     conn.close()
@@ -103,6 +105,7 @@ def logged_pizza(id):
         logged_pizza = data.get('logged_pizza')
         date_created = datetime.datetime.now()
         cur.execute('INSERT INTO pizza (player_id, logged_pizza, date_created) VALUES (%s, %s, %s)', (id, logged_pizza, date_created))
+        cur.execute('UPDATE player SET total_pizza = total_pizza - %s WHERE id = %s', (logged_pizza, id))
         conn.commit()
         cur.close()
         conn.close()
