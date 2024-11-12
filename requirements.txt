@@ -1,6 +1,4 @@
 flask_cors
-os
 flask
-dotenv
+python-dotenv
 psycopg2
-json
